@@ -10,6 +10,7 @@ public class TowerModel {
     private int printCounter = 0;
     private int moveCounter = 0;
 
+    
     /* This class implements a model of a tower of Hanoi game.
 
         |    |    |
@@ -47,7 +48,22 @@ public class TowerModel {
     public void move(int source, int destination)
     {
         System.out.println("Move #" + ++moveCounter + " from " + source + " to " + destination);
-        // TODO!!
+        int diskToMove = towers[source].pop();  // Remove the top disk from the source tower
+        if (diskToMove == 0) {
+            System.out.println("Invalid move: source tower is empty.");
+            return;  // If no disk is present, return
+        }
+
+        int topDestDisk = towers[destination].peek();  // Look at the top disk of the destination tower
+        
+        if (topDestDisk == 0 || diskToMove < topDestDisk) {
+            // If destination is empty or the disk is smaller than the top disk of the destination tower, place it on destination
+            towers[destination].push(diskToMove);
+        } else {
+            // If the move is invalid, restore the disk to the source tower
+            towers[source].push(diskToMove);
+            System.out.println("Invalid move: cannot place larger disk on top of smaller disk.");
+        }
     }
 
     // Helper method to nicely print the current model state.
